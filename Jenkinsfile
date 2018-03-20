@@ -25,6 +25,17 @@ pipeline {
             }
         }
         stage('Deploy') {
+              options {
+                  timeout(time: 5, unit: 'MINUTES') 
+              }
+              when {
+                  branch 'master'
+              }
+              input {
+                  message "Deploy to prod?"
+                  ok "Yes"
+                  submitter "kypseli*ops"
+              }
             steps {
                 echo 'deploy app'
             }
