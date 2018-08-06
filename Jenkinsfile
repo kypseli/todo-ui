@@ -1,7 +1,6 @@
 pipeline {
     options { 
         buildDiscarder(logRotator(numToKeepStr: '4')) 
-        timestamps()
     }
     agent none
     triggers {
