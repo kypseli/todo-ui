@@ -5,7 +5,7 @@ pipeline {
     }
     agent none
     triggers {
-        eventTrigger(event(generic('todo-api')))
+        eventTrigger simpleMatch('todo-api')
     }
     stages {
         stage('Event Trigger') {
@@ -18,21 +18,44 @@ pipeline {
                 echo 'triggered by published event: todo-api'
             }
         }
-        stage('Build') {
-            steps {
-                echo 'build app'
-            }
-        }
         stage('Test') {
-            steps {
-                echo 'test app'
+          agent {
+            kubernetes {
+              label 'test'
+              yamlFile 'test-pod.yml'
             }
+          }
+          steps {
+            container('nginx') {
+              sh 'cp -r $WORKSPACE/src /usr/share/nginx/html'
+              sh 'nginx -g daemon off;'
+            }
+            container('golang') {
+              sh 'cp -r ./tests /tests'
+              sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail chromium --no-sandbox /tests/*.js'
+            }
+            stash name: 'src', includes: 'src/*' 
+          }
+        }
+        stage('Docker Build and Push') {
+          //don't need an agent as one is provided in shared pipeline library -> kypseli
+          agent none
+          when {
+            beforeAgent true
+            branch 'master'
+          }
+          steps {
+            dockerBuildPush('beedemo/todo-ui', "${BUILD_NUMBER}",'./') {
+                unstash 'src'
+            }
+          }
         }
         stage('Deploy') {
               options {
                   timeout(time: 5, unit: 'MINUTES') 
               }
               when {
+                  beforeAgent true
                   branch 'master'
               }
               input {

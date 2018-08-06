@@ -1,0 +1,31 @@
+version: '3.3'
+services:
+  ui:
+    image: 'kypseli/todo-ui:dev3'
+    container_name: 'ui'
+    ports:
+      - '8088:80'
+    depends_on:
+      - 'api'
+    environment:
+       - TODO_API_URL=http://api:3000
+  api:
+    image: 'kypseli/todo-api:dev3'
+    container_name: 'api'
+    ports:
+      - '8087:3000'
+    depends_on:
+      - 'mongo'
+  mongo:
+    image: 'mongo:latest'
+    container_name: 'mongo'
+    ports:
+      - '27100:27017'
+  test:
+    image: 'testcafe/testcafe:alpha'
+    container_name: 'testcafe'
+    depends_on:
+      - 'ui'
+    entrypoint: ["/opt/testcafe/docker/testcafe-docker.sh", "--debug-on-fail", "chromium --no-sandbox,firefox'", "/tests/*.js"]
+    volumes:
+      - ./tests:/tests:ro
