@@ -15,6 +15,8 @@ spec:
     tty: true
   - name: api
     image: 946759952272.dkr.ecr.us-east-1.amazonaws.com/kypseli/todo-api:latest
+    command:
+    - ./api
   - name: mongo
     image: mongo:4.1
     command:
