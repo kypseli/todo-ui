@@ -17,7 +17,7 @@ pipeline {
           steps {
             container('nginx') {
               sh 'cp -r $WORKSPACE/src /usr/share/nginx/html'
-              sh 'nginx -g daemon off;'
+              sh 'nginx;'
             }
             container('golang') {
               sh 'cp -r ./tests /tests'
