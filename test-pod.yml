@@ -9,7 +9,7 @@ spec:
     - cat
     tty: true
     ports:
-    - containerPort: 80
+    - containerPort: 8000
   - name: testcafe
     image: beedemo/testcafe@sha256:2e099e67c42ffbf77d254eadab8aa89e6037f5aadce7b8678c50f12742bfb94a
     command:
