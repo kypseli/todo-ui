@@ -2,8 +2,6 @@ metadata:
   labels:
     some-label: some-label-value
 spec:
-  securityContext:
-    runAsUser: 10000
   containers:
   - name: nginx
     image: nginx:1.13.3-alpine
@@ -11,7 +9,7 @@ spec:
     - cat
     tty: true
   - name: testcafe
-    image: testcafe/testcafe:alpha
+    image: beedemo/testcafe:latest
     command:
     - cat
     tty: true
