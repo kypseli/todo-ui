@@ -20,8 +20,7 @@ pipeline {
               sh 'nginx;'
             }
             container('testcafe') {
-              sh 'cp -r ./tests /tests'
-              sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail chromium --no-sandbox /tests/*.js'
+              sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail chromium --no-sandbox ./tests/*.js'
             }
             stash name: 'src', includes: 'src/*' 
           }
