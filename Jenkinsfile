@@ -16,8 +16,8 @@ pipeline {
           }
           steps {
             container('nginx') {
-              sh 'cp -r $WORKSPACE/src /usr/share/nginx/html'
-              sh 'nginx -g "daemon off;"'
+              sh 'cp -r $WORKSPACE/src/ /usr/share/nginx/html'
+              sh 'nginx -g "daemon off;" &'
             }
             container('testcafe') {
               sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail chromium tests/*.js'
