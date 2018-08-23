@@ -19,7 +19,7 @@ pipeline {
               sh 'cp -r $WORKSPACE/src /usr/share/nginx/html'
               sh 'nginx;'
             }
-            container('golang') {
+            container('testcafe') {
               sh 'cp -r ./tests /tests'
               sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail chromium --no-sandbox /tests/*.js'
             }
