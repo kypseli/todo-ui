@@ -15,10 +15,11 @@ spec:
     tty: true
   - name: api
     image: 946759952272.dkr.ecr.us-east-1.amazonaws.com/kypseli/todo-api:latest
-    command:
-    - cat
-    tty: true
   - name: mongo
-    image: mongo:latest
+    image: mongo:4.1
+    command:
+    - docker-entrypoint.sh
+    args:
+    - mongod
     ports:
     - containerPort: 27017
