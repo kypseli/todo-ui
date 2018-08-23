@@ -2,7 +2,7 @@ import { Selector } from 'testcafe';
 
 
 fixture `Initial page`
-   .page `http://localhost:80`;
+   .page `http://localhost`;
 
 
 test('Check new-todo placeholder text and new input', async t => {
