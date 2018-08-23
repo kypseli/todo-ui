@@ -16,7 +16,7 @@ pipeline {
           }
           steps {
             container('nginx') {
-              sh 'cp -r $WORKSPACE/src/ /usr/share/nginx/html'
+              sh 'cp -r $WORKSPACE/src/* /usr/share/nginx/html'
               sh 'nginx -g "daemon off;" &'
             }
             container('testcafe') {
