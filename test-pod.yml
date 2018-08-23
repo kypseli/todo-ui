@@ -18,7 +18,7 @@ spec:
   - name: api
     image: 946759952272.dkr.ecr.us-east-1.amazonaws.com/kypseli/todo-api:latest
     command:
-    - /api
+    - /app
     ports:
     - containerPort: 3000
   - name: mongo
