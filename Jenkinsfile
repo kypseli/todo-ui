@@ -21,9 +21,14 @@ pipeline {
               sh 'nginx -g "daemon off;" &'
             }
             container('testcafe') {
-              sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail "chromium --no-sandbox" tests/*.js'
+              sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail "chromium --no-sandbox" tests/*.js -r xunit:res.xml'
             }
             stash name: 'src', includes: 'src/*, nginx/*, Dockerfile'
+          }
+          post {
+            always {
+              junit 'res.xml'
+            }
           }
         }
         stage('Docker Build and Push') {
