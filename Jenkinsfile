@@ -23,7 +23,7 @@ pipeline {
             container('testcafe') {
               sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail "chromium --no-sandbox" tests/*.js'
             }
-            stash name: 'src', includes: 'src/*' 
+            stash name: 'src', includes: 'src/*, Dockerfile'
           }
         }
         stage('Docker Build and Push') {
