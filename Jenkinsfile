@@ -2,7 +2,7 @@ library 'kypseli'
 pipeline {
     options { 
         buildDiscarder(logRotator(numToKeepStr: '4')) 
-        preserveStashes(3)
+        preserveStashes()
     }
     agent none
     triggers {
