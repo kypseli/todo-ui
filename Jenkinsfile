@@ -40,7 +40,7 @@ pipeline {
             branch 'master'
           }
           steps {
-            dockerBuildPush('kypseli/todo-ui', "${BUILD_NUMBER}",'./') {
+            dockerBuildPush('todo-ui', "${BUILD_NUMBER}",'./') {
                 unstash 'src'
             }
           }
