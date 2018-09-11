@@ -11,4 +11,7 @@ test('Check new-todo placeholder text and new input', async t => {
 
    await t
        .expect(newToDoInput.value).eql('', 'input has no value')
+       .typeText(newToDoInput, 'Buy Milk')
+       .pressKey('enter')
+       .expect(addedToDo.value).contains('Milk', 'todo contains text "Milk"');
 });
