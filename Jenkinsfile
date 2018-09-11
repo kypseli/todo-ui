@@ -22,7 +22,7 @@ pipeline {
             container('nginx') {
               stash name: 'src', includes: 'src/*, nginx/*, Dockerfile'
               stash name: 'deploy', includes: 'todo-ui-deploy.yml'
-              sh("sed -i.bak 's#todo-api.cb-deploy#localhost#' ./src/app.js")
+              sh("sed -i.bak 's#todo-api.k8s.beedemo.net#localhost:3000#' ./src/app.js")
               sh 'cp -r $WORKSPACE/src/* /usr/share/nginx/html'
               sh 'nginx -g "daemon off;" &'
             }
