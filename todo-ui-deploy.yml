@@ -33,12 +33,6 @@ spec:
             memory: "500Mi"
             cpu: "100m"
         imagePullPolicy: Always
-        env:
-          - name: TODO_API_HOST
-            value: "todo-api.cb-deploy"
-          - name: TODO_API_PORT
-            value: "3000"
-        command: ["/app"]
         ports:
         - name: todo-ui
           containerPort: 80

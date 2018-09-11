@@ -20,6 +20,8 @@ pipeline {
           steps {
             checkout scm
             container('nginx') {
+              stash name: 'src', includes: 'src/*, nginx/*, Dockerfile'
+              stash name: 'deploy', includes: 'todo-ui-deploy.yml'
               sh("sed -i.bak 's#todo-api.cb-deploy#localhost#' ./src/app.js")
               sh 'cp -r $WORKSPACE/src/* /usr/share/nginx/html'
               sh 'nginx -g "daemon off;" &'
@@ -27,8 +29,6 @@ pipeline {
             container('testcafe') {
               sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail "chromium --no-sandbox" tests/*.js -r xunit:res.xml'
             }
-            stash name: 'src', includes: 'src/*, nginx/*, Dockerfile'
-            stash name: 'deploy', includes: 'todo-ui-deploy.yml'
           }
           post {
             always {
