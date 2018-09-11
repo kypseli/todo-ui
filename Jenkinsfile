@@ -27,7 +27,7 @@ pipeline {
               sh 'nginx -g "daemon off;" &'
             }
             container('testcafe') {
-              sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail "chromium --no-sandbox" tests/*.js -r xunit:res.xml'
+              sh '/opt/testcafe/docker/testcafe-docker.sh "chromium --no-sandbox" tests/*.js -r xunit:res.xml'
             }
           }
           post {
