@@ -3,9 +3,7 @@ var todoStorage = {
   fetch: function (callback) {
 		$.getJSON(todoApiUrl, function(data){
       var todos = data;
-      if(todos!==null) {
-        todoStorage.uid = todos.length;
-      }
+      todoStorage.uid = todos.length;
       callback(todos);
 		});
   },
@@ -104,9 +102,7 @@ var app = new Vue({
   watch: {
     todos: {
       handler: function (todos) {
-        if(todos!==null) {
-          console.log("Something happend to ", todos.length);
-        }
+        console.log("Something happend to ", todos.length);
         //todoStorage.save(todos)
       },
       deep: true
@@ -120,9 +116,7 @@ var app = new Vue({
       return filters[this.visibility](this.todos);
     },
     remaining: function () {
-      if(this.todos!==null) {
-        return filters.active(this.todos).length;
-      }
+      return filters.active(this.todos).length;
     },
     allDone: {
       get: function () {
