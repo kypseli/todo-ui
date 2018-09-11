@@ -1,0 +1,44 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: todo-ui
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 80
+    protocol: TCP
+    name: http
+  selector:
+    app: todo-ui
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: todo-ui-production
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: todo-ui
+      labels:
+        app: todo-ui
+        env: production
+    spec:
+      containers:
+      - name: todo-ui
+        image: REPLACE_IMAGE_TAG
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "100m"
+        imagePullPolicy: Always
+        env:
+          - name: TODO_API_HOST
+            value: "todo-api.cb-deploy"
+          - name: TODO_API_PORT
+            value: "3000"
+        command: ["/app"]
+        ports:
+        - name: todo-ui
+          containerPort: 80

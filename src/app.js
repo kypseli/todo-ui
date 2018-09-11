@@ -1,4 +1,4 @@
-var todoApiUrl = 'http://localhost:3000'
+var todoApiUrl = 'http://todo-api.cb-deploy:3000'
 var todoStorage = {
   fetch: function (callback) {
 		$.getJSON(todoApiUrl, function(data){

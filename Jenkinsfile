@@ -3,6 +3,7 @@ pipeline {
     options { 
         buildDiscarder(logRotator(numToKeepStr: '4')) 
         preserveStashes()
+        skipDefaultCheckout() 
     }
     agent none
     triggers {
@@ -17,7 +18,9 @@ pipeline {
             }
           }
           steps {
+            checkout scm
             container('nginx') {
+              sh("sed -i.bak 's#todo-api.cb-deploy#localhost#' ./src/app.js")
               sh 'cp -r $WORKSPACE/src/* /usr/share/nginx/html'
               sh 'nginx -g "daemon off;" &'
             }
@@ -25,6 +28,7 @@ pipeline {
               sh '/opt/testcafe/docker/testcafe-docker.sh --debug-on-fail "chromium --no-sandbox" tests/*.js -r xunit:res.xml'
             }
             stash name: 'src', includes: 'src/*, nginx/*, Dockerfile'
+            stash name: 'deploy', includes: 'todo-ui-deploy.yml'
           }
           post {
             always {
@@ -46,21 +50,22 @@ pipeline {
           }
         }
         stage('Deploy') {
-              options {
-                  timeout(time: 3, unit: 'MINUTES') 
-              }
-              when {
-                  beforeAgent true
-                  branch 'master'
-              }
-              input {
-                  message "Deploy to prod?"
-                  ok "Yes"
-                  submitter "kypseli*ops"
-              }
-            steps {
-                echo 'deploy app'
-            }
+          agent none
+          options {
+              timeout(time: 3, unit: 'MINUTES') 
+          }
+          when {
+              beforeAgent true
+              branch 'master'
+          }
+          input {
+              message "Deploy to prod?"
+              ok "Yes"
+              submitter "kypseli*ops"
+          }
+          steps {
+              kubeDeploy('todo-ui', 'kypseli', "${BUILD_NUMBER}", './todo-ui-deploy.yml')
+          }
         }
     }
 }
