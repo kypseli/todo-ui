@@ -7,9 +7,11 @@ fixture `Initial page`
 
 test('Check new-todo placeholder text and new input', async t => {
    const newToDoInput = Selector('input.new-todo');
+   const addedToDo = Selector('.todo-list li label')
 
    await t
        .expect(newToDoInput.value).eql('', 'input has no value')
        .typeText(newToDoInput, 'Buy Milk')
-       .expect(newToDoInput.value).contains('Milk', 'input contains text "Milk"');
+       .pressKey('enter')
+       .expect(addedToDo.value).contains('Milk', 'todo contains text "Milk"');
 });
