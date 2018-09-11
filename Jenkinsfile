@@ -19,7 +19,9 @@ pipeline {
           }
           steps {
             checkout scm
+            gitShortCommit()
             container('nginx') {
+              sh("sed -i.bak 's#REPLACE_SHORT_COMMIT#${SHORT_COMMIT}#' ./src/index.html")
               stash name: 'src', includes: 'src/*, nginx/*, Dockerfile'
               stash name: 'deploy', includes: 'todo-ui-deploy.yml'
               sh("sed -i.bak 's#todo-api.k8s.beedemo.net#localhost:3000#' ./src/app.js")
