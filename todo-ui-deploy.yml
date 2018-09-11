@@ -46,8 +46,8 @@ spec:
   rules:
   - http:
       paths:
-      - path: /todo-ui
+      - path: /
         backend:
           serviceName: todo-ui
           servicePort: 80
-    host: cb-deploy.k8s.beedemo.net
+    host: todo-ui.k8s.beedemo.net
