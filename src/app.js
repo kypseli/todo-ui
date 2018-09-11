@@ -1,4 +1,4 @@
-var todoApiUrl = 'http://todo-api.k8s.beedemo.net'
+var todoApiUrl = 'http://todo-api.k8s.beedemo.net/todos'
 var todoStorage = {
   fetch: function (callback) {
 		$.getJSON(todoApiUrl, function(data){
